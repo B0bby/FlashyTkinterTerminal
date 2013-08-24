@@ -6,16 +6,20 @@ import sys, os
 class FlashyPyTerm (tk.Tk) :
 	def __init__ (self):
 		
+		# SETTINGS
 		screenWidth = 1920
 		screenHeight = 1080
-		path = os.path.realpath(' >')
+		path = os.path.realpath('>')
 		systemFont = ('Dotimatrix 7',20)
+		# ********
 		
+		# Make fullscreen
 		tk.Tk.__init__(self)
 		self.wm_state('zoomed')
 		self.overrideredirect(1)
 		self.attributes('-topmost', True)
 		
+		# Create background image
 		self.canvas_image = tk.PhotoImage(file='terminal_logo_sm.gif')	
 		
 		# Create canvas and insert image and text
@@ -32,7 +36,11 @@ class FlashyPyTerm (tk.Tk) :
 		self.commandVar = tk.StringVar()
 		self.commandEntry = tk.Entry(self, borderwidth=0, font=systemFont, fg='green', bg='black', textvariable=self.commandVar)
 		self.commandEntry.bind('<Return>', self.handleInput)
+		self.commandEntry.focus_set()
 		self.commandEntry.place(anchor='sw', x=self.currentPathLabel.winfo_reqwidth()+10, rely=1)
+		
+		# Add global key bindings
+		# TODO: Add ctrl-c escape for running programs
 	
 	def handleInput(self, a=None):
 		command = self.commandVar.get().split(' ')
@@ -50,9 +58,6 @@ class FlashyPyTerm (tk.Tk) :
 				tk.Tk().update_idletasks()
 			else:
 				break
-			
-	def printHello(self):
-		print('hello')
 
 if __name__ == "__main__":	
 	app = FlashyPyTerm()
